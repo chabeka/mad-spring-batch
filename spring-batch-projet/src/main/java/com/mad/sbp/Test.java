@@ -15,7 +15,7 @@ public class Test {
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
 		//JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
-		//Job job = (Job) context.getBean("mainJob");
+		//Job job = (Job) context.getBean("mainJob"); 
 		
 		/*
 		try {
