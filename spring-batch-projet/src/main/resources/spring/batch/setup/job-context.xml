@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <description>Spring Batch infrastructure beans.</description>
+    
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="databaseType" value="mysql" />
+	</bean>
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+	
+	<!-- for manage file (open, close, read line etc... user FlatFileItemReader -->
+	
+	<bean id="listFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="resource" value="file:C:\Users\Aliou\Documents\workspace\spring-batch-projet\src\main\resources\static\person.csv"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="names" value="idPerson,lastName,firstName,sex,birthdate,city,country,nationality"></property>
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean class="com.mad.sbp.items.ListFieldSetMapper">
+					</bean>
+				</property>
+			</bean>
+		</property>		
+	</bean>
+	
+	<!-- bena for write data in nosql dat base -->
+    <bean id="personWriter" class="com.mad.sbp.items.PersonWritter"></bean>
+    
+    <bean id="testUn" class="com.mad.sbp.items.TestUn"></bean>
+    <bean id="testDeux" class="com.mad.sbp.items.TestDeux"></bean>
+    
+</beans>
